@@ -5,6 +5,7 @@ const app = new cdk.App();
 const env = envs();
 new FrontendStack(app, "frontend", {
   environment: "TEST",
+  repositoryUrl: env.REPOSITORY_URL,
   env: {
     account: env.AWS_ACCOUNT,
     region: env.AWS_REGION,

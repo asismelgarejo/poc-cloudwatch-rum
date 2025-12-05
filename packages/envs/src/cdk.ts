@@ -12,6 +12,10 @@ const cdkEnvSchema = {
     .max(12)
     .describe("AWS Account ID (12 digits)"),
   AWS_REGION: z.string().min(1).describe("AWS Region (e.g., us-east-1)"),
+  REPOSITORY_URL: z
+    .string()
+    .min(1)
+    .describe("GitHub repository URL for the current project"),
 } as const;
 
 /**

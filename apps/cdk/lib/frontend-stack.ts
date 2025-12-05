@@ -8,6 +8,7 @@ import { readFileSync } from "fs";
 
 type FrontendStackProps = cdk.StackProps & {
   environment: Environments;
+  repositoryUrl: string;
 };
 export class FrontendStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props: FrontendStackProps) {
@@ -23,7 +24,7 @@ export class FrontendStack extends cdk.Stack {
       name: `${props.environment}-poc-cloudwatch-rum-frontend`,
       description: "Frontend for testing cloudwatch rum",
       accessToken: githubToken.unsafeUnwrap(),
-      repository: "https://github.com/asismelgarejo/poc-cloudwatch-rum",
+      repository: props.repositoryUrl,
       platform: "WEB_COMPUTE",
       // Build settings
       buildSpec: FrontendStack.GetAmplifyBuildSpec("build-spec.yml"),
