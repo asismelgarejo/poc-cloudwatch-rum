@@ -1,0 +1,14 @@
+{
+  "extends": "@poc-cloudwatch-rum/tsconfig/node.json",
+  "compilerOptions": {
+    "composite": true,
+    "paths": {
+      "@/poc-cloudwatch-rum/envs": ["../../packages/envs/src/index.ts"]
+    }
+  },
+  "references": [
+    {
+      "path": "../../packages/envs"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "name": "@poc-cloudwatch-rum/envs",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "description": "Shared TypeScript configuration for monorepo",
+  "dependencies": {
+    "@poc-cloudwatch-rum/lazy-envs": "workspace:*",
+    "@poc-cloudwatch-rum/tsconfig": "workspace:*",
+    "zod": "^4.1.13"
+  },
+  "scripts": {
+    "build": "tsc"
+  }
+}

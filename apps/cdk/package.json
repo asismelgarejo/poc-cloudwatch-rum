@@ -1,0 +1,21 @@
+{
+  "name": "cdk",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "cdk": "cdk"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.21.0",
+  "devDependencies": {
+    "@poc-cloudwatch-rum/tsconfig": "workspace:*"
+  },
+  "dependencies": {
+    "aws-cdk-lib": "^2.231.0",
+    "constructs": "^10.4.3"
+  }
+}
