@@ -41,15 +41,9 @@ export type LazyEnv<S extends StandardSchemaDictionary> = {
   (): StandardSchemaDictionary.InferOutput<S>;
   /**
    * Helper function to declare the environment variables, useful when declaring those in
-   * in a `Function` cdk construct declaration. Additionally, it allows any other arbitrary
-   * string key-value pairs to be included for deployment, however this variables will not
-   * exist in the parsed object.
+   * in a `Function` cdk construct declaration. Only allows exact keys from the schema.
    */
-  getDeclaration: <
-    TDeclaration extends NormalizeInferInput<S> & Record<string, string>,
-  >(
-    values: TDeclaration,
-  ) => TDeclaration;
+  getDeclaration: (values: NormalizeInferInput<S>) => NormalizeInferInput<S>;
 };
 
 /**

@@ -1,9 +1,11 @@
 {
-    "extends": "@poc-cloudwatch-rum/tsconfig/node.json",
-    "compilerOptions": {
-        "composite": true
-    },
-    "include": [
-        "./src/*.ts"
-    ]
+  "extends": "@poc-cloudwatch-rum/tsconfig/node.json",
+  "compilerOptions": {
+    "composite": true,
+    "baseUrl": "./",
+    "paths": {
+      "@/lazy-envs/*": ["./*"]
+    }
+  },
+  "include": ["./src/*.ts"]
 }

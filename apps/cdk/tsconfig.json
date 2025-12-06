@@ -1,9 +1,14 @@
 {
   "extends": "@poc-cloudwatch-rum/tsconfig/node.json",
   "compilerOptions": {
+    "outDir": "dist",
+    "baseUrl": "./",
     "composite": true,
     "paths": {
-      "@/poc-cloudwatch-rum/envs": ["../../packages/envs/src/index.ts"]
+      "@/envs": ["../../packages/envs/src/index.ts"],
+      "@/envs/*": ["../../packages/envs/src/*"],
+      "@/lazy-envs": ["../../packages/lazy-envs/src/index.ts"],
+      "@/lazy-envs/*": ["../../packages/lazy-envs/src/*"]
     }
   },
   "references": [

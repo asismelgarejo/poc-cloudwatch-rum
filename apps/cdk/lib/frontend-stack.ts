@@ -1,10 +1,12 @@
 import * as rum from "aws-cdk-lib/aws-rum";
 import * as amplify from "aws-cdk-lib/aws-amplify";
+import * as secretsmanager from "aws-cdk-lib/aws-secretsmanager";
 import * as cdk from "aws-cdk-lib";
 import * as path from "path";
 import { Construct } from "constructs";
 import { Environments } from "../shared";
 import { readFileSync } from "fs";
+import { frontendEnvs } from "@/envs/frontend";
 
 type FrontendStackProps = cdk.StackProps & {
   environment: Environments;
@@ -16,40 +18,25 @@ export class FrontendStack extends cdk.Stack {
 
     //#region amplify App
     // Reference the GitHub access token from Secrets Manager
-    const githubToken =  cdk.SecretValue.ssmSecure(
-      `${props.environment}/github/token`
-    );
+    // const gitSecret = secretsmanager.Secret.fromSecretNameV2(
+    //   this,
+    //   "git-secret",
+    //   "/TEST/github/token"
+    // );
+
+    // const githubToken = gitSecret.secretValueFromJson("/TEST/github/token");
 
     const amplifyApp = new amplify.CfnApp(this, "poc-cloudwatch-rum", {
       name: `${props.environment}-poc-cloudwatch-rum-frontend`,
       description: "Frontend for testing cloudwatch rum",
-      accessToken: githubToken.unsafeUnwrap(),
+      accessToken: "{{resolve:secretsmanager:/TEST/github/token:SecretString}}",
       repository: props.repositoryUrl,
       platform: "WEB_COMPUTE",
       // Build settings
       buildSpec: FrontendStack.GetAmplifyBuildSpec("build-spec.yml"),
     });
 
-    // Create the main branch
-    const mainBranch = new amplify.CfnBranch(this, "main", {
-      appId: amplifyApp.attrAppId,
-      branchName: "main",
-      enableAutoBuild: false,
-      enablePullRequestPreview: false,
-      stage: "PRODUCTION",
-      framework: "Nuxt.js - SSR",
-      environmentVariables: [
-        {
-          name: "NODE_ENV",
-          value: "production",
-        },
-      ],
-    });
-    //#endregion
-
     //#region RUM App Monitor
-    const branchDomain = `${mainBranch.attrBranchName}.${amplifyApp.attrDefaultDomain}`;
-
     const rumAppMonitor = `${props.environment}-poc-cloudwatch-rum-frontend`;
     const iamResourcePolicy = {
       Version: "2012-10-17",
@@ -57,7 +44,7 @@ export class FrontendStack extends cdk.Stack {
         {
           Effect: "Allow",
           Action: "rum:PutRumEvents",
-          Resource: `arn:aws:rum::${cdk.Stack.of(this).region}:${
+          Resource: `arn:aws:rum:${cdk.Stack.of(this).region}:${
             cdk.Stack.of(this).account
           }:appmonitor/${rumAppMonitor}`,
           Principal: "*",
@@ -67,13 +54,37 @@ export class FrontendStack extends cdk.Stack {
 
     const rumCfn = new rum.CfnAppMonitor(this, "app-monitoring", {
       name: rumAppMonitor,
-      domain: branchDomain,
+      domain: amplifyApp.attrDefaultDomain, // Temporarily use app domain, will be updated after branch creation
       resourcePolicy: {
         policyDocument: JSON.stringify(iamResourcePolicy),
       },
     });
     rumCfn.addDependency(amplifyApp);
-    rumCfn.addDependency(mainBranch);
+    //#endregion
+
+    // Create the main branch with RUM environment variables
+    const environmentVariables = Object.entries(
+      frontendEnvs.getDeclaration({
+        NODE_ENV: "PROD",
+        NUXT_PUBLIC_AWS_RUM_APPLICATION_ID: rumCfn.attrId,
+        NUXT_PUBLIC_AWS_RUM_APPLICATION_VERSION: "1.0.0",
+        NUXT_PUBLIC_AWS_RUM_REGION: cdk.Stack.of(this).region,
+        NUXT_PUBLIC_AWS_RUM_ENDPOINT: `https://dataplane.rum.${
+          cdk.Stack.of(this).region
+        }.amazonaws.com`,
+      })
+    ).map(([key, value]) => ({ name: key, value: value.toString() }));
+
+    const mainBranch = new amplify.CfnBranch(this, "main", {
+      appId: amplifyApp.attrAppId,
+      branchName: "main",
+      enableAutoBuild: false,
+      enablePullRequestPreview: false,
+      stage: "PRODUCTION",
+      framework: "Nuxt.js - SSR",
+      environmentVariables,
+    });
+    mainBranch.addDependency(rumCfn);
     //#endregion
   }
 

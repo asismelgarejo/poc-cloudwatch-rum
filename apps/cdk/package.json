@@ -2,7 +2,6 @@
   "name": "cdk",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "build": "tsc",
     "cdk": "cdk"
@@ -12,7 +11,10 @@
   "license": "ISC",
   "packageManager": "pnpm@10.21.0",
   "devDependencies": {
-    "@poc-cloudwatch-rum/tsconfig": "workspace:*"
+    "@poc-cloudwatch-rum/tsconfig": "workspace:*",
+    "aws-cdk": "^2.231.0",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0"
   },
   "dependencies": {
     "aws-cdk-lib": "^2.231.0",
