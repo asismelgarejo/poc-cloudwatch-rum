@@ -8,7 +8,12 @@ applications:
             - corepack enable
             - corepack prepare pnpm@10.21.0 --activate
             - cd ../..
-            - pnpm install --frozen-lockfile
+            # Install dependencies for packages first
+            - pnpm install --filter "./packages/**" --frozen-lockfile
+            # Build all packages
+            - pnpm --filter "./packages/**" run build
+            # Install frontend dependencies
+            - pnpm install --filter "@poc-cloudwatch-rum/frontend" --frozen-lockfile
         build:
           commands:
             - cd apps/frontend

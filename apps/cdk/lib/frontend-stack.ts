@@ -55,7 +55,7 @@ export class FrontendStack extends cdk.Stack {
     // Create the main branch with RUM environment variables
     const environmentVariables = Object.entries(
       frontendEnvs.getDeclaration({
-        NODE_ENV: "PROD",
+        NUXT_NODE_ENV: "PROD",
         NUXT_PUBLIC_AWS_RUM_APPLICATION_ID: rumCfn.attrId,
         NUXT_PUBLIC_AWS_RUM_APPLICATION_VERSION: "1.0.0",
         NUXT_PUBLIC_AWS_RUM_REGION: cdk.Stack.of(this).region,
