@@ -1,14 +1,26 @@
 {
-  "name": "lazy-envs",
+  "name": "@poc-cloudwatch-rum/lazy-envs",
   "version": "1.0.0",
   "description": "A package to validate and load environment variables",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "zod": "^4.1.13"
+  },
   "devDependencies": {
     "@poc-cloudwatch-rum/tsconfig": "workspace:*"
   },
   "scripts": {
-    "build": "tsc"
-  },
-  "dependencies": {
-    "zod": "^4.1.13"
+    "build": "tsc",
+    "clean": "rm -rf dist"
   }
 }

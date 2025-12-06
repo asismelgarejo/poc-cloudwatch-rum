@@ -17,6 +17,7 @@
     "tsconfig-paths": "^4.2.0"
   },
   "dependencies": {
+    "@poc-cloudwatch-rum/envs": "workspace:*",
     "aws-cdk-lib": "^2.231.0",
     "constructs": "^10.4.3"
   }

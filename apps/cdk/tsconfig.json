@@ -3,17 +3,6 @@
   "compilerOptions": {
     "outDir": "dist",
     "baseUrl": "./",
-    "composite": true,
-    "paths": {
-      "@/envs": ["../../packages/envs/src/index.ts"],
-      "@/envs/*": ["../../packages/envs/src/*"],
-      "@/lazy-envs": ["../../packages/lazy-envs/src/index.ts"],
-      "@/lazy-envs/*": ["../../packages/lazy-envs/src/*"]
-    }
-  },
-  "references": [
-    {
-      "path": "../../packages/envs"
-    }
-  ]
+
+  }
 }

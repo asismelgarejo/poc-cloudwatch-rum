@@ -1,4 +1,4 @@
-import { createLazyEnv, type LazyEnv } from "@/lazy-envs";
+import { createLazyEnv, type LazyEnv } from "@poc-cloudwatch-rum/lazy-envs";
 import z from "zod";
 
 /**

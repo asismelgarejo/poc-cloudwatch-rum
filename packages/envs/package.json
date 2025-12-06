@@ -1,12 +1,36 @@
 {
-  "name": "envs",
+  "name": "@poc-cloudwatch-rum/envs",
   "version": "1.0.0",
-  "description": "Shared TypeScript configuration for monorepo",
+  "description": "Environment variable schemas and validation for POC CloudWatch RUM",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./cdk": {
+      "types": "./dist/cdk.d.ts",
+      "default": "./dist/cdk.js"
+    },
+    "./frontend": {
+      "types": "./dist/frontend.d.ts",
+      "default": "./dist/frontend.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
   "dependencies": {
-    "@poc-cloudwatch-rum/tsconfig": "workspace:*",
+    "@poc-cloudwatch-rum/lazy-envs": "workspace:*",
     "zod": "^4.1.13"
   },
+  "devDependencies": {
+    "@poc-cloudwatch-rum/tsconfig": "workspace:*",
+    "tsc-alias": "^1.8.16"
+  },
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "clean": "rm -rf dist"
   }
 }

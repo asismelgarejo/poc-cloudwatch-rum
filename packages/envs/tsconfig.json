@@ -1,18 +1,11 @@
 {
   "extends": "@poc-cloudwatch-rum/tsconfig/node.json",
   "compilerOptions": {
-    "composite": true,
     "rootDir": "src",
-    "baseUrl": "./",
-    "paths": {
-      "@/lazy-envs": ["../lazy-envs/src/index.ts"],
-      "@/lazy-envs/*": ["../lazy-envs/src/*"]
-    }
+    "outDir": "dist",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true
   },
-  "include": ["./src/**.ts"],
-  "references": [
-    {
-      "path": "../lazy-envs"
-    }
-  ]
+  "include": ["./src/**/*.ts"]
 }
