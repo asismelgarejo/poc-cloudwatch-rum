@@ -6,7 +6,7 @@ import z from "zod";
  * Defines AWS CloudWatch RUM configuration settings.
  */
 const frontendEnvSchema = {
-  NUXT_NODE_ENV: z.enum(["PROD", "DEV"]),
+  // NUXT_NODE_ENV: z.enum(["development", "production"]),
   NUXT_PUBLIC_AWS_RUM_APPLICATION_ID: z
     .string()
     .min(1)

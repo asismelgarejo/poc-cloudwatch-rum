@@ -1,15 +1,12 @@
 import { AwsRum, type AwsRumConfig } from "aws-rum-web";
-import { frontendEnvs } from "@poc-cloudwatch-rum/envs/frontend";
-
-const envs = frontendEnvs();
 
 export default defineNuxtPlugin(() => {
   if (process.client) {
     try {
+      const config = useRuntimeConfig();
       const rumConfig: AwsRumConfig = {
         sessionSampleRate: 1,
-        identityPoolId: envs.NUXT_PUBLIC_AWS_RUM_APPLICATION_ID,
-        endpoint: envs.NUXT_PUBLIC_AWS_RUM_ENDPOINT,
+        endpoint: config.public.awsRum.endpoint,
         telemetries: ["performance", "errors", "http"],
         allowCookies: true,
         enableXRay: true,
@@ -17,9 +14,9 @@ export default defineNuxtPlugin(() => {
       };
 
       new AwsRum(
-        envs.NUXT_PUBLIC_AWS_RUM_APPLICATION_ID,
-        envs.NUXT_PUBLIC_AWS_RUM_APPLICATION_VERSION,
-        envs.NUXT_PUBLIC_AWS_RUM_REGION,
+        config.public.awsRum.applicationId,
+        config.public.awsRum.applicationVersion,
+        config.public.awsRum.region,
         rumConfig,
       );
     } catch (error) {

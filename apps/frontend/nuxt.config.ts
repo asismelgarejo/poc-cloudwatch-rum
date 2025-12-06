@@ -1,4 +1,8 @@
+import { frontendEnvs } from "@poc-cloudwatch-rum/envs";
 // https://nuxt.com/docs/api/configuration/nuxt-config
+
+const envs = frontendEnvs();
+
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
@@ -6,17 +10,13 @@ export default defineNuxtConfig({
   nitro: {
     preset: "aws-amplify",
   },
-  vite: {
-    optimizeDeps: {
-      include: ["@poc-cloudwatch-rum/envs", "@poc-cloudwatch-rum/lazy-envs"],
-    },
-    build: {
-      commonjsOptions: {
-        include: [
-          /@poc-cloudwatch-rum\/envs/,
-          /@poc-cloudwatch-rum\/lazy-envs/,
-          /node_modules/,
-        ],
+  runtimeConfig: {
+    public: {
+      awsRum: {
+        applicationId: envs.NUXT_PUBLIC_AWS_RUM_APPLICATION_ID,
+        applicationVersion: envs.NUXT_PUBLIC_AWS_RUM_APPLICATION_VERSION,
+        region: envs.NUXT_PUBLIC_AWS_RUM_REGION,
+        endpoint: envs.NUXT_PUBLIC_AWS_RUM_ENDPOINT,
       },
     },
   },
