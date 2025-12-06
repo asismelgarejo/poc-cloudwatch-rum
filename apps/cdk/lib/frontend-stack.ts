@@ -28,6 +28,7 @@ export class FrontendStack extends cdk.Stack {
 
     //#region RUM App Monitor
     const rumAppMonitor = `${props.environment}-poc-cloudwatch-rum-frontend`;
+    const mainBranchName = "main";
     const iamResourcePolicy = {
       Version: "2012-10-17",
       Statement: [
@@ -42,9 +43,15 @@ export class FrontendStack extends cdk.Stack {
       ],
     };
 
+    const domainToken = cdk.Fn.join("", [
+      mainBranchName, // normalmente "main"
+      ".",
+      amplifyApp.attrDefaultDomain, // xxxxx.amplifyapp.com (token)
+    ]);
+
     const rumCfn = new rum.CfnAppMonitor(this, "app-monitoring", {
       name: rumAppMonitor,
-      domain: amplifyApp.attrDefaultDomain, // Temporarily use app domain, will be updated after branch creation
+      domain: domainToken,
       resourcePolicy: {
         policyDocument: JSON.stringify(iamResourcePolicy),
       },
@@ -61,12 +68,12 @@ export class FrontendStack extends cdk.Stack {
         NUXT_PUBLIC_AWS_RUM_ENDPOINT: `https://dataplane.rum.${
           cdk.Stack.of(this).region
         }.amazonaws.com`,
-      }),
+      })
     ).map(([key, value]) => ({ name: key, value: value.toString() }));
 
     const mainBranch = new amplify.CfnBranch(this, "main", {
       appId: amplifyApp.attrAppId,
-      branchName: "main",
+      branchName: mainBranchName,
       enableAutoBuild: true,
       enablePullRequestPreview: false,
       stage: "PRODUCTION",

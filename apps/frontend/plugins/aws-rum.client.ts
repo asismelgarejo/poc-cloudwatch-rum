@@ -10,7 +10,7 @@ export default defineNuxtPlugin(() => {
         telemetries: ["performance", "errors", "http"],
         allowCookies: true,
         enableXRay: true,
-        signing: true, // If you have a public resource policy and wish to send unsigned requests please set this to false
+        signing: false, 
       };
 
       new AwsRum(
