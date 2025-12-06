@@ -9,6 +9,7 @@ applications:
             - corepack prepare pnpm@10.21.0 --activate
             - cd ../..
             # Install dependencies for packages first
+            - pnpm install --frozen-lockfile
             - pnpm install --filter "./packages/**" --frozen-lockfile
             # Build all packages
             - pnpm --filter "./packages/**" run build
