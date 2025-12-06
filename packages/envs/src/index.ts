@@ -1,2 +1,2 @@
-export * from "./cdk";
-export * from "./frontend";
+export * from "./cdk.js";
+export * from "./frontend.js";

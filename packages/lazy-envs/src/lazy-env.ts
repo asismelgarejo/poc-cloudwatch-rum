@@ -2,7 +2,7 @@ import {
   parseWithDictionary,
   StandardSchemaDictionary,
   StandardSchemaV1,
-} from "./standard";
+} from "./standard.js";
 
 /**
  * Configuration options for {@link createLazyEnv}

@@ -1,1 +1,1 @@
-export * from "./lazy-env";
+export * from "./lazy-env.js";

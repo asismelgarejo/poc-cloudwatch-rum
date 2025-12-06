@@ -1,6 +1,7 @@
 {
   "name": "@poc-cloudwatch-rum/envs",
   "version": "1.0.0",
+  "type": "module",
   "description": "Environment variable schemas and validation for POC CloudWatch RUM",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
